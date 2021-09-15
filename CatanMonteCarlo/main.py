@@ -15,7 +15,7 @@ RESOURCE_TILES = [
     ]
 DICE_SYMBOLS = {2:"*", 3:"**", 4:"***", 5:"****", 6:"*****", 7:"", 8:"*****", 9:"****", 10:"***", 11:"**", 12:"*"}
 RESOURCE_SHORT = dict(zip(['b', 'l', 'w', 'g', 'o', 'd'], RESOURCE))
-RESOURCE_COLOUR = dict(zip(RESOURCE, ['#CC6600', '#009900', '#CCFF99', '#FFFF99', '#C0C0C0', '#000000']))
+RESOURCE_COLOUR = dict(zip(RESOURCE, ['#CC6600', '#009900', '#CCFF99', '#FFFF99', '#C0C0C0', '#FF9933']))
 DICE_NUMBERS = [2, 3, 3, 4, 4, 5, 5, 6, 6, 8, 8, 9, 9, 10, 10, 11, 11, 12, 7]
 HEX_COORDS = [
     [0,2,-2],
@@ -148,13 +148,18 @@ class Vertex:
 def show_board(hexes, vertices, n):
     fig, ax = plt.subplots(1)
     ax.set_aspect('equal')
-    circle_poly = Circle((0, 0), 10, color = 'lightblue', alpha = 0.2)
+    circle_poly = Circle((0, 0), 10, color = '#0000FF', alpha = 0.2)
     ax.add_patch(circle_poly)
     for hex in hexes:
         x, y = cube_to_doubleheight(hex.coordinates)
+
+        hex_poly_border = RegularPolygon((x, y), numVertices=6, radius= 2, color = 'white',
+            orientation = np.radians(60), alpha = 1, zorder = 1)
         hex_poly = RegularPolygon((x, y), numVertices=6, radius= 2*0.9, color = RESOURCE_COLOUR[hex.resource],
-                            orientation = np.radians(60), alpha = 1)
+                            orientation = np.radians(60), alpha = 1, zorder = 1)
+        ax.add_patch(hex_poly_border)
         ax.add_patch(hex_poly)
+        
         if hex.dice_number in [6, 8]:
             text_colour = 'red'
         else:
@@ -167,11 +172,13 @@ def show_board(hexes, vertices, n):
     
     for vertex in vertices:
         x, y = cube_to_doubleheight(vertex.vertex_coords)
-        ax.scatter(x, y, alpha = vertex.resource_count['total']/n, color = 'black')
+        
         if vertex.resource_count['total'] >= highlight_threshold:
-            ax.text(x, y, str(vertex.resource_count['total']), weight='bold')
+            ax.scatter(x, y, color = 'black', zorder = 2)
+            ax.text(x, y, str(round(vertex.resource_count['total']/n, 3)), weight='bold')
         else:
-            ax.text(x, y, str(vertex.resource_count['total']))
+            ax.scatter(x, y, color = 'grey', zorder = 2)
+            ax.text(x, y, str(round(vertex.resource_count['total']/n, 3)))
     ax.set_ylim(-10, 10)
     ax.set_xlim(-10, 10)
     ax.set_axis_off()
@@ -199,4 +206,4 @@ def simulate(placement, n):
     show_board(hexes, vertices, n)
 
 if __name__ == "__main__":
-    simulate(string_placement(), 100)
+    simulate(string_placement('5w-8b-4g-7d-10w-3w-11b-2o-9w-11g-6g-12g-6o-4l-5o-9l-3l-8l-10b'), 100000)
