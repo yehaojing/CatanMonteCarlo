@@ -1,4 +1,3 @@
-
 global SCALE
 SCALE = 3
 global RESOURCE
