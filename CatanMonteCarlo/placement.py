@@ -1,4 +1,5 @@
 from random import shuffle
+
 import config
 
 def string_placement(string = '4l-11w-12b-8g-3o-6b-9g-5w-10g-11g-5l-10l-7d-9w-4l-8w-2o-6b-3o'):
