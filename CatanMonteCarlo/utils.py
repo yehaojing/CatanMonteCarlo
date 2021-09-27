@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 from matplotlib.patches import RegularPolygon, Circle
 import numpy as np
 
-import config
+import CatanMonteCarlo.config as config
 
 def cube_to_doubleheight(cube):
     y = -cube[2]

@@ -1,4 +1,4 @@
-import config
+import CatanMonteCarlo.config as config
 
 class HexTile:
     def __init__(self, coordinates, resource, dice_number):

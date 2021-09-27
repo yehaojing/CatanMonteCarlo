@@ -1,8 +1,8 @@
 from random import randint
 
-import config
-from objects import HexTile, Vertex
-from utils import show_board
+import CatanMonteCarlo.config as config
+from CatanMonteCarlo.objects import HexTile, Vertex
+from CatanMonteCarlo.utils import show_board
 
 def roll_dice(n):
     dice_rolls =  []
